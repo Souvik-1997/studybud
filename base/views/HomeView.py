@@ -18,18 +18,28 @@ def home(request):
     rooms = Room.objects.filter(
         Q(topic__name__icontains=q) | Q(name__icontains=q) | Q(description__icontains=q)
     )
-    # dd(rooms) # noqa: F821
     page = request.GET.get("page", 1)
     rooms_obj = RoomService.pagination(request, page, rooms)
-    # dd(rooms_obj) # noqa: F821
     rooms_count = Room.objects.count()
     topics = Topic.objects.all()
     all_messages = Message.objects.all().order_by("-create")[:3]
+    room_data = []
+
+    for room in rooms_obj:
+        participants_count = room.participants.count()
+        room_data.append(
+            {"room": room, "participants_count": participants_count}
+        )
+        
+    # room_data.append({"room_obj": rooms_obj})
+                     
     import os
-    print('===> Current file path:', os.path.abspath(__file__))
-    print('===> Debugging...> ', all_messages)
+    print("===> Current file path:", os.path.abspath(__file__))
+    print("===> Debugging...> ", rooms_obj)
+    
     context = {
         "topics": topics,
+        "rooms_data": room_data,
         "rooms": rooms_obj,
         "rooms_count": rooms_count,
         "all_messages": all_messages,
