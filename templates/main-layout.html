@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'includes/head.html' %}
+  <body>
+    {% if request.get_full_path != '/auth/login/' and request.get_full_path != '/auth/signup/' %}
+      {% include 'includes/header.html' %}
+    {% endif %}
+
+    {% if messages %}
+    <div class="toast-container">
+      {% for message in messages %}
+      <div class="toast" id="toast">
+        <i class="fa-solid {% if message.tags == 'success'%}fa-circle-check{% else %}fa-circle-exclamation{% endif %}" id="icon-color"></i>
+        <p class="toast-text">{{ message }}</p>
+        <i class="fas fa-close" id="close"></i>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% comment %} {% if errors %}
+    <ul>
+        {% for field, field_errors in errors.items %}
+            <li>
+                <ul>
+                    {% for error_message  in field_errors %}
+                        <li >{{field.capitalize}}: {{ error_message }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+  {% endif %} {% endcomment %}
+
+    {% comment %} {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %} {% endcomment %}
+
+    {% block content %}
+
+    {% endblock %}
+
+
+      <!-- Footer -->
+    {% include 'includes/footer-js.html' %}
+  </body>
+</html>
