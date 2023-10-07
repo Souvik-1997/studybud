@@ -10,7 +10,7 @@ venv/
 *.env
 
 # Ignore the database file
-# db.sqlite3
+db.sqlite3
 
 # Ignore static and media files (if they're managed by Django)
 /staticfiles/

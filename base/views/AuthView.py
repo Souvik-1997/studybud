@@ -26,6 +26,7 @@ def authLogin(request):
             else:
                 messages.error(request, "User dose not exist!")
         except Exception as e:
+            messages.error(request, "Please use correct login credentials...")
             print(e)
     context = {}
     return render(request, "base/pages/login.html", context)
