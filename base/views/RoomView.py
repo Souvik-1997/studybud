@@ -106,6 +106,4 @@ def topics(request):
 def deleteMessage(request, pk):
     auth_user = request.user
     message = Message.objects.get(id=pk)
-    import os
-    print('===> Current file path:', os.path.abspath(__file__))
-    print('===> Debugging...> ', message)
+

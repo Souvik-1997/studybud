@@ -1,3 +1,4 @@
+{% load static %}
 <div class="roomList">
     <div class="mobile-menu">
         <form class="header__search">
@@ -35,8 +36,8 @@
     <div class="roomListRoom">
         <div class="roomListRoom__header">
             <a href="#" class="roomListRoom__author">
-                <div class="avatar avatar--small">
-                    <img src="https://randomuser.me/api/portraits/women/11.jpg"/>
+                <div class="avatar avatar--small {% if request.user ==  data.room.host %} active {% endif %}">
+                    <img src="{% static 'images/avatar.svg' %}" />
                 </div>
                 <span>@{{data.room.host.first_name}} {{data.room.host.last_name}}</span>
             </a>

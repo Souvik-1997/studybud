@@ -18,18 +18,13 @@
           </label>
         </form>
         <nav class="header__menu">
-          <!-- Not Logged In -->
-          <!-- <a href="/login.html">
-            {% comment %} <img src="{% static 'images/avatar.svg' %}" /> {% endcomment %}
-            <p>Login</p> 
-          </a> -->
 
           <!-- Logged In -->
           {% if request.user.is_authenticated %}
           <div class="header__user">
             <a href="#">
               <div class="avatar avatar--medium active">
-                <img src="https://randomuser.me/api/portraits/men/37.jpg" />
+                <img src="{% static 'images/avatar.svg' %}" />
               </div>
               <p>{{request.user.username}} <span>@{{request.user.first_name}} {{request.user.last_name}}</span></p>
             </a>
@@ -41,10 +36,19 @@
             </button>
           </div>
           {% else %}
+
+          <!-- Not Logged In -->
           <a href="{% url 'login' %}">
-            
-            <p>Login<span>Click here</span></p>
+            <img src="{% static 'images/avatar.svg' %}" />
+            <p><span>Login</span></p> 
           </a>
+
+          {% comment %} 
+            <a href="{% url 'login' %}">
+              <p>Login<span>Click here</span></p>
+            </a>
+          {% endcomment %}
+
           {% endif %}
 
           <div class="dropdown-menu">
