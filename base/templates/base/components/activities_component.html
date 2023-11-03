@@ -12,8 +12,8 @@
                         <img src="{% static 'images/avatar.svg' %}" />
                     </div>
                     <p>
-                        @{{message.user}}
-                        <span>{{message.create | timesince}}</span>
+                        @{{message.user.username}}
+                        <span>{{message.created_at | timesince}}</span>
                     </p>
                 </a>
                 {% comment %} 

@@ -13,7 +13,6 @@ from base.services.RoomService import RoomService
 
 
 def home(request):
-    # dd(request)  # noqa: F821
     q = request.GET.get("q") if request.GET.get("q") is not None else ""
     rooms = Room.objects.filter(
         Q(topic__name__icontains=q) | Q(name__icontains=q) | Q(description__icontains=q)
@@ -21,8 +20,8 @@ def home(request):
     page = request.GET.get("page", 1)
     rooms_obj = RoomService.pagination(request, page, rooms)
     rooms_count = Room.objects.count()
-    topics = Topic.objects.all()
-    all_messages = Message.objects.all().order_by("-create")[:3]
+    topics = Topic.objects.all()[:5]
+    all_messages = Message.objects.all()
     room_data = []
 
     for room in rooms_obj:
@@ -30,13 +29,7 @@ def home(request):
         room_data.append(
             {"room": room, "participants_count": participants_count}
         )
-        
-    # room_data.append({"room_obj": rooms_obj})
-                     
-    import os
-    print("===> Current file path:", os.path.abspath(__file__))
-    print("===> Debugging...> ", rooms_obj)
-    
+                      
     context = {
         "topics": topics,
         "rooms_data": room_data,

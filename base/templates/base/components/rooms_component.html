@@ -39,7 +39,7 @@
                 <div class="avatar avatar--small {% if request.user ==  data.room.host %} active {% endif %}">
                     <img src="{% static 'images/avatar.svg' %}" />
                 </div>
-                <span>@{{data.room.host.first_name}} {{data.room.host.last_name}}</span>
+                <span>@{{data.room.host.name}}</span>
             </a>
             <div class="roomListRoom__actions">
                 <span>{{data.room.create | timesince}}</span>
@@ -50,7 +50,7 @@
             <p>{{data.room.description}}</p>
         </div>
         <div class="roomListRoom__meta">
-            <a href="data.room.html" class="roomListRoom__joined">
+            <a href="#" class="roomListRoom__joined">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                     <title>user-group</title>
                     <path

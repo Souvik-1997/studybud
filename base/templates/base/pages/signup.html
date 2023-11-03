@@ -10,22 +10,24 @@
           </div>
         </div>
         <div class="layout__body">
-          <h2 class="auth__tagline">Find your study partner</h2>
-
           <form class="form" action="" method="POST">
+            <div class="form__group form__group">
             {% csrf_token %}
             {% for field in form %}
-              <p>
-                  {{ field.label_tag }}<br />
+                  {{ field.label_tag }}
                   {{ field }}
-                  {% if field.help_text %}
+                  {% if field.name == 'username' %}
                     <small style="color: grey">{{ field.help_text }}</small>
                   {% endif %}
+                  {% comment %} {% if field.help_text %}
+                    <small style="color: grey">{{ field.help_text }}</small>
+                  {% endif %} {% endcomment %}
                   {% for error in field.errors %}
                     <p style="color: red">{{ error }}</p>
                   {% endfor %}
-              </p>
+
             {% endfor %}
+            </div>
          
             {% comment %} <div class="form__group form__group">
               <label for="room_name">Username</label>
@@ -59,7 +61,7 @@
                 <p style="color: red">{{ error }}</p>
               {% endfor %}
             </div>  {% endcomment %}
-
+            <br/>
             <button class="btn btn--main" type="submit">
               <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                 <title>lock</title>
@@ -68,7 +70,6 @@
               </svg>Sign Up
             </button>
           </form>
-
           <div class="auth__action">
             <p>Already have an account?</p>
             <a href="{% url 'login' %}" class="btn btn--link">Log In</a> |

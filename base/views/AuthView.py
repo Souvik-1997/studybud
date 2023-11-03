@@ -1,9 +1,18 @@
+from math import log
 from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.contrib.auth.models import User
+from base.models.Message import Message
+from base.models.Room import Room
+from base.models.Topic import Topic
+
+# from django.contrib.auth.models import User
+from base.models.User import User
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
+
+# from django.contrib.auth.forms import UserCreationForm
+
+from base.forms.AuthForm import AuthUserCreationForm
 
 
 def authLogin(request):
@@ -33,10 +42,10 @@ def authLogin(request):
 
 
 def authSignup(request):
-    form = UserCreationForm()
+    form = AuthUserCreationForm()
     try:
         if request.method == "POST":
-            form = UserCreationForm(request.POST)
+            form = AuthUserCreationForm(request.POST)
             if form.is_valid:
                 user = form.save(commit=False)
                 user.username = user.username.lower()
@@ -59,3 +68,19 @@ def authLogout(request):
     logout(request)
     messages.error(request, "You have been  logged out!")
     return redirect("home")
+
+
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    room_details = Room.objects.filter(host=user)
+    activities = Message.objects.filter(user=user)
+    topics = Topic.objects.all()
+
+
+    context = {
+        "user_details": user,
+        "room_details": room_details,
+        "activities": activities,
+        "topics": topics
+    }
+    return render(request, "base/pages/profile.html", context)

@@ -1,3 +1,4 @@
+from logging import info
 from pprint import pp
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -6,6 +7,7 @@ from base.models import Message, Room, Topic
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from base.decorators.RoomDecorator import message_delete_permission
 
 # Custom Service object imports
 # from base.services.RoomService import room_service_obj
@@ -90,7 +92,7 @@ def deleteRoom(request, pk):
         messages.error(request, "You have not this permission!")
         return redirect("home")
     room_detail = Room.objects.get(id=pk)
-    context = {"room_detail": room_detail}
+    context = {"details": room_detail}
     return render(request, "base/pages/delete.html", context)
 
 
@@ -103,7 +105,12 @@ def topics(request):
 
 
 @login_required(login_url="login")
+@message_delete_permission
 def deleteMessage(request, pk):
-    auth_user = request.user
-    message = Message.objects.get(id=pk)
+    message = Message.objects.get(id = pk)
+    room = message.room 
+    message.delete()
+    messages.success(request, "Message has been deleted successfully.")
+    return redirect('room', pk = room.id)
+
 
